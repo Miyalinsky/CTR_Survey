@@ -2,7 +2,7 @@
 export async function searchTrials({ keyword, startDate, endDate }) {
     const response = await fetch(`http://localhost/CTR_Survey/backend/api/search.php?keyword=${encodeURIComponent(keyword)}&startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`);
     if (!response.ok) {
-        throw new Error('レスポンスエラー');
+        throw new Error('サーチレスポンスエラー');
     }
     return response.json();
 }
@@ -10,7 +10,7 @@ export async function searchTrials({ keyword, startDate, endDate }) {
 export async function exportTrials({ keyword, startDate, endDate }) {
     const response = await fetch(`http://localhost/CTR_Survey/backend/api/export.php?keyword=${encodeURIComponent(keyword)}&startDate=${encodeURIComponent(startDate)}&endDate=${encodeURIComponent(endDate)}`);
     if (!response.ok) {
-        throw new Error('レスポンスエラー');
+        throw new Error('エクスポートレスポンスエラー');
     }
     return response.blob();
 }
@@ -19,7 +19,7 @@ export async function exportTrials({ keyword, startDate, endDate }) {
 export async function updateDatabase() {
     const response = await fetch('http://localhost/CTR_Survey/backend/scripts/fetch_csv.php');
     if (!response.ok) {
-        throw new Error('Failed to update database');
+        throw new Error('DBアップデートエラー');
     }
     const result = await response.json();
     return result;
