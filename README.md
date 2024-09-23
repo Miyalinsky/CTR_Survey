@@ -16,8 +16,8 @@ http://www.ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 
-- ID: なし
-- PW: なし
+- ID: admin
+- PW: password
 
 ## ⑤工夫した点・こだわった点
 
