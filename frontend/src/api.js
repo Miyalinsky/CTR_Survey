@@ -24,3 +24,19 @@ export async function updateDatabase() {
     const result = await response.json();
     return result;
 }
+
+export const logout = async () => {
+    const response = await fetch('http://localhost/CTR_Survey/backend/api/logout.php', {
+        method: 'POST',
+        credentials: 'include', // クッキーを含むために必要
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error('ログアウトに失敗しました');
+    }
+
+    return response.json();
+};

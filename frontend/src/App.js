@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import SearchForm from './components/SearchForm';
 import ResultsTable from './components/ResultsTable';
 import { searchTrials, exportTrials, updateDatabase } from './api';
+import Login from './components/Login';
+import { logout } from './api'; // ログアウトAPIをインポート
 
 function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [results, setResults] = useState([]);
   const [searchParams, setSearchParams] = useState({
     keyword: '',
@@ -11,11 +15,25 @@ function App() {
     endDate: ''
   });
 
+  const handleLogin = (isAdminFlag) => {
+    setIsAuthenticated(true);
+    setIsAdmin(isAdminFlag);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout(); // APIでログアウト処理を呼び出す
+      setIsAuthenticated(false); // 認証状態をリセット
+    } catch (error) {
+      console.error('ログアウトエラー:', error);
+    }
+  };
+
   const handleSearch = async (params) => {
     try {
       const data = await searchTrials(params);
       setResults(data);
-      setSearchParams(params); // 検索パラメータを保存しておく
+      setSearchParams(params);
     } catch (error) {
       console.error('検索エラー:', error);
     }
@@ -23,7 +41,7 @@ function App() {
 
   const handleExport = async () => {
     try {
-      const blob = await exportTrials(searchParams); // 保存した検索パラメータを使用
+      const blob = await exportTrials(searchParams);
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
       link.href = url;
@@ -46,12 +64,17 @@ function App() {
     }
   };
 
+  if (!isAuthenticated) {
+    return <Login onLogin={handleLogin} />;
+  }
+
   return (
     <div className="App">
       <h1>UMIN-CTR検索システム</h1>
+      <button onClick={handleLogout}>ログアウト</button> {/* ログアウトボタンを追加 */}
       <SearchForm onSearch={handleSearch} />
       <button onClick={handleExport}>Excelに保存</button>
-      <button onClick={handleUpdateDatabase}>データベースを更新</button>
+      {isAdmin && <button onClick={handleUpdateDatabase}>データベースを更新</button>}
       <ResultsTable results={results || []} />
     </div>
   );
