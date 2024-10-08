@@ -16,13 +16,13 @@ https://ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 
--管理者（データベースの更新権限あり）
--- ID: admin
--- PW: password
+管理者（データベースの更新権限あり）
+- ID: admin
+- PW: password
 
--一般ユーザー
--- ID: user
--- PW: password
+一般ユーザー
+- ID: user
+- PW: password
 
 ## ⑤工夫した点・こだわった点
 
