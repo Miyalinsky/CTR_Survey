@@ -1,6 +1,6 @@
 # ①課題番号-プロダクト名
 
-7-UMIN-CTR検索システム
+11-UMIN-CTR検索システム
 
 ## ②課題内容（どんな作品か）
 
@@ -16,8 +16,13 @@ https://ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 
-- ID: admin
-- PW: password
+-管理者（データベースの更新権限あり）
+-- ID: admin
+-- PW: password
+
+-一般ユーザー
+-- ID: user
+-- PW: password
 
 ## ⑤工夫した点・こだわった点
 
