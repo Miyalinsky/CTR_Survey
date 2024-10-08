@@ -4,13 +4,14 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// // エラーログ出力を有効にする
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+// エラーログ出力を有効にする
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-// ini_set('log_errors', 1);
-// ini_set('error_log', 'http://www.ochiponchi.sakura.ne.jp/CTR_Survey/backend/php_error.log');  // サーバーのエラーログのパスに変更
+// ログファイルにエラーを記録する
+ini_set('log_errors', 1);
+ini_set('error_log', '/Applications/XAMPP/xamppfiles/logs/php_error.log');
 
 
 include '../includes/db.php';  // データベース接続
@@ -31,7 +32,10 @@ CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blindi
 CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
 url_japanese
 FROM trials 
-WHERE scientific_title LIKE :keyword 
+WHERE (scientific_title LIKE :keyword
+    OR public_title LIKE :keyword
+    OR `condition` LIKE :keyword 
+    OR narrative_objectives1 LIKE :keyword)
 AND date_of_disclosure BETWEEN :startDate AND :endDate
 ";
 
@@ -80,6 +84,8 @@ $sheet->setCellValue('AB1', '試験実施施設/Institutions');
 // データの取得とExcelファイルへの書き込み
 $rowNumber = 2;
 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+//error_log(var_export($data, true));
 
 // 研究責任者情報をスクレイピングして追加する
 foreach ($data as &$record) {
@@ -192,6 +198,79 @@ if ($data) {
         $rowNumber++;
     }
 }
+
+// ヘッダーのスタイルを設定
+$headerStyle = [
+    'font' => [
+        'bold' => true,
+        'color' => ['argb' => 'FFFFFFFF'],  // 白色
+    ],
+    'fill' => [
+        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+        'startColor' => ['argb' => 'FF4CAF50'],  // 緑色
+    ],
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+        ],
+    ],
+    'alignment' => [
+        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+        'wrapText' => true,
+    ],
+];
+
+$sheet->getStyle('A1:AB1')->applyFromArray($headerStyle);  // ヘッダーにスタイル適用
+
+// 列の幅を設定
+$sheet->getColumnDimension('A')->setWidth(15);
+$sheet->getColumnDimension('B')->setWidth(30);
+$sheet->getColumnDimension('C')->setWidth(15);
+$sheet->getColumnDimension('D')->setWidth(50);
+$sheet->getColumnDimension('E')->setWidth(15);
+$sheet->getColumnDimension('F')->setWidth(15);
+$sheet->getColumnDimension('G')->setWidth(15);
+$sheet->getColumnDimension('H')->setWidth(30);
+$sheet->getColumnDimension('I')->setWidth(30);
+$sheet->getColumnDimension('J')->setWidth(15);
+$sheet->getColumnDimension('K')->setWidth(15);
+$sheet->getColumnDimension('L')->setWidth(15);
+$sheet->getColumnDimension('M')->setWidth(15);
+$sheet->getColumnDimension('N')->setWidth(15);
+$sheet->getColumnDimension('O')->setWidth(50);
+$sheet->getColumnDimension('P')->setWidth(50);
+$sheet->getColumnDimension('Q')->setWidth(15);
+$sheet->getColumnDimension('R')->setWidth(15);
+$sheet->getColumnDimension('S')->setWidth(15);
+$sheet->getColumnDimension('T')->setWidth(15);
+$sheet->getColumnDimension('U')->setWidth(15);
+$sheet->getColumnDimension('V')->setWidth(15);
+$sheet->getColumnDimension('W')->setWidth(15);
+$sheet->getColumnDimension('X')->setWidth(15);
+$sheet->getColumnDimension('Y')->setWidth(15);
+$sheet->getColumnDimension('Z')->setWidth(15);
+$sheet->getColumnDimension('AA')->setWidth(15);
+$sheet->getColumnDimension('AB')->setWidth(15);
+
+// 行の高さを設定
+$sheet->getRowDimension('1')->setRowHeight(60);  // ヘッダー行を高さ調整
+
+// データ部分にも罫線を追加
+$dataStyle = [
+    'borders' => [
+        'allBorders' => [
+            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+        ],
+    ],
+    'alignment' => [
+        'wrapText' => true,  // 折り返し設定
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_TOP,
+        'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
+    ],
+];
+
+$sheet->getStyle('A2:AB' . count($data)+1)->applyFromArray($dataStyle);
 
 // Excelファイルの出力
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

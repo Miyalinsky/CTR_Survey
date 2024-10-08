@@ -53,21 +53,21 @@ if (($handle = fopen($localCsv, 'r')) !== FALSE) {
 
     // データの準備
     $stmt = $pdo->prepare("INSERT INTO trials (
-        umin_id, scientific_title, `condition`, narrative_objectives1, basic_objectives2, 
+        umin_id, public_title, scientific_title, `condition`, narrative_objectives1, basic_objectives2, 
         basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, 
         study_type, basic_design, randomization, randomization_unit, blinding, control, 
         age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, 
         target_sample_size, institute, institute_org, organization, organization_org, irb_organization, institutions, 
         date_of_disclosure, url_japanese
     ) VALUES (
-        :umin_id, :scientific_title, :condition, :narrative_objectives1, :basic_objectives2, 
+        :umin_id, :public_title, :scientific_title, :condition, :narrative_objectives1, :basic_objectives2, 
         :basic_objectives_others, :developmental_phase, :primary_outcomes, :key_secondary_outcomes, 
         :study_type, :basic_design, :randomization, :randomization_unit, :blinding, :control, 
         :age_lower_limit, :age_upper_limit, :gender, :key_inclusion_criteria, :key_exclusion_criteria, 
         :target_sample_size, :institute, :institute_org, :organization, :organization_org, :irb_organization, :institutions, 
         :date_of_disclosure, :url_japanese
     ) ON DUPLICATE KEY UPDATE 
-        scientific_title = VALUES(scientific_title), `condition` = VALUES(`condition`), 
+        public_title = VALUES(public_title), scientific_title = VALUES(scientific_title), `condition` = VALUES(`condition`), 
         narrative_objectives1 = VALUES(narrative_objectives1), basic_objectives2 = VALUES(basic_objectives2), 
         basic_objectives_others = VALUES(basic_objectives_others), developmental_phase = VALUES(developmental_phase), 
         primary_outcomes = VALUES(primary_outcomes), key_secondary_outcomes = VALUES(key_secondary_outcomes), 
@@ -89,6 +89,7 @@ if (($handle = fopen($localCsv, 'r')) !== FALSE) {
 
         // インデックスが存在するかを確認し、存在しない場合はデフォルト値を使用
         $umin_id = isset($data[1]) ? $data[1] : null;
+        $public_title = isset($data[2]) ? $data[2] : null;
         $scientific_title = isset($data[6]) ? $data[6] : null;
         $condition = isset($data[11]) ? $data[11] : null;
         $narrative_objectives1 = isset($data[16]) ? $data[16] : null;
@@ -127,6 +128,7 @@ if (($handle = fopen($localCsv, 'r')) !== FALSE) {
         $stmt->execute([
         // var_dump([
             ':umin_id' => $umin_id,
+            ':public_title' => $public_title,
             ':scientific_title' => $scientific_title,
             ':condition' => $condition,
             ':narrative_objectives1' => $narrative_objectives1,

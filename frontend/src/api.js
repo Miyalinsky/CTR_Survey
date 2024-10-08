@@ -15,6 +15,14 @@ export async function exportTrials({ keyword, startDate, endDate }) {
     return response.blob();
 }
 
+export const exportAllTrials = async (params) => {
+    const response = await fetch(`http://localhost/CTR_Survey/backend/api/export_all.php?startDate=${params.startDate}&endDate=${params.endDate}`);
+    if (!response.ok) {
+        throw new Error('エクスポートレスポンスエラー');
+    }
+    return await response.blob();
+};
+
 // データベースを更新するための関数
 export async function updateDatabase() {
     const response = await fetch('http://localhost/CTR_Survey/backend/scripts/fetch_csv.php');

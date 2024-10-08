@@ -15,17 +15,20 @@ function SearchForm({ onSearch }) {
         <form onSubmit={handleSubmit}>
             <input
                 type="text"
+                id="keyword"
                 placeholder="キーワード"
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
             />
             <input
                 type="date"
+                id="startDate"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
             />
             <input
                 type="date"
+                id="endDate"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
             />

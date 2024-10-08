@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchForm from './components/SearchForm';
 import ResultsTable from './components/ResultsTable';
-import { searchTrials, exportTrials, updateDatabase } from './api';
+import { searchTrials, exportTrials, exportAllTrials, updateDatabase } from './api';
 import Login from './components/Login';
 import { logout } from './api'; // ログアウトAPIをインポート
 
@@ -41,7 +41,12 @@ function App() {
 
   const handleExport = async () => {
     try {
-      const blob = await exportTrials(searchParams);
+      const params = {
+        keyword: document.getElementById("keyword").value,
+        startDate: document.getElementById("startDate").value,  // startDateをDOMから直接取得
+        endDate: document.getElementById("endDate").value  // endDateをDOMから直接取得
+      };
+      const blob = await exportTrials(params);
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
       link.href = url;
@@ -64,6 +69,25 @@ function App() {
     }
   };
 
+  const handleAllExport = async () => {
+    try {
+      const params = {
+        startDate: document.getElementById("startDate").value,  // DOMから直接取得
+        endDate: document.getElementById("endDate").value
+      };
+      const blob = await exportAllTrials(params);
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'all_trials.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+    } catch (error) {
+      console.error('エクスポートエラー:', error);
+    }
+  };
+
   if (!isAuthenticated) {
     return <Login onLogin={handleLogin} />;
   }
@@ -74,6 +98,7 @@ function App() {
       <button onClick={handleLogout}>ログアウト</button> {/* ログアウトボタンを追加 */}
       <SearchForm onSearch={handleSearch} />
       <button onClick={handleExport}>Excelに保存</button>
+      <button onClick={handleAllExport}>All Export</button>
       {isAdmin && <button onClick={handleUpdateDatabase}>データベースを更新</button>}
       <ResultsTable results={results || []} />
     </div>
