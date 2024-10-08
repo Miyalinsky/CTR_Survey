@@ -12,7 +12,7 @@
 
 ## ③DEMO
 
-http://www.ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
+https://ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
 
 ## ④作ったアプリケーション用のIDまたはPasswordがある場合
 
