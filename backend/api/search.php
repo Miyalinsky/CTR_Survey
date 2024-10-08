@@ -27,7 +27,10 @@ CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blindi
 CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
 url_japanese
 FROM trials 
-WHERE scientific_title LIKE :keyword 
+WHERE (scientific_title LIKE :keyword
+    OR public_title LIKE :keyword
+    OR `condition` LIKE :keyword 
+    OR narrative_objectives1 LIKE :keyword)
 AND date_of_disclosure BETWEEN :startDate AND :endDate
 ";
 
