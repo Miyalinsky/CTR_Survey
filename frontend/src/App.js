@@ -3,7 +3,8 @@ import SearchForm from './components/SearchForm';
 import ResultsTable from './components/ResultsTable';
 import { searchTrials, exportTrials, exportAllTrials, updateDatabase } from './api';
 import Login from './components/Login';
-import { logout } from './api'; // ログアウトAPIをインポート
+import { logout } from './api';
+import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -94,13 +95,23 @@ function App() {
 
   return (
     <div className="App">
-      <h1>UMIN-CTR検索システム</h1>
-      <button onClick={handleLogout}>ログアウト</button> {/* ログアウトボタンを追加 */}
-      <SearchForm onSearch={handleSearch} />
-      <button onClick={handleExport}>Excelに保存</button>
-      <button onClick={handleAllExport}>All Export</button>
-      {isAdmin && <button onClick={handleUpdateDatabase}>データベースを更新</button>}
-      <ResultsTable results={results || []} />
+      <header>
+        <h1>UMIN-CTR検索システム</h1>
+        <button className="logout-button" onClick={handleLogout}>ログアウト</button>
+      </header>
+
+      <main>
+        <div className="search-section">
+          <SearchForm onSearch={handleSearch} />
+          <div className="button-group">
+            <button className="export-button" onClick={handleExport}>Excelに保存</button>
+            <button className="export-button" onClick={handleAllExport}>All Export</button>
+            {isAdmin && <button className="update-button" onClick={handleUpdateDatabase}>データベースを更新</button>}
+          </div>
+        </div>
+
+        <ResultsTable results={results || []} />
+      </main>
     </div>
   );
 }

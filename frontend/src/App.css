@@ -32,7 +32,51 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.App {
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+}
+
+.logout-button {
+  float: right;
+  margin-right: 20px;
+  padding: 8px 16px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.search-section {
+  margin: 20px;
+}
+
+.button-group {
+  margin-top: 20px;
+}
+
+.export-button,
+.update-button {
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #008CBA;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.update-button {
+  background-color: #4CAF50;
 }
