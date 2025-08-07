@@ -80,3 +80,25 @@ header {
 .update-button {
   background-color: #4CAF50;
 }
+
+.loading-animation {
+  font-size: 24px;
+  color: #4CAF50;
+  font-weight: bold;
+  text-align: center;
+  animation: fade 1s infinite;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
