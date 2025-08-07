@@ -118,18 +118,22 @@ $queries = [
     WHERE (scientific_title LIKE '%循環%'
         OR scientific_title LIKE '%心不全%'
         OR scientific_title LIKE '%がん%'
+        OR scientific_title LIKE '%癌%'
         OR scientific_title LIKE '%生活習慣病%'
         OR public_title LIKE '%循環%'
         OR public_title LIKE '%心不全%'
         OR public_title LIKE '%がん%'
+        OR public_title LIKE '%癌%'
         OR public_title LIKE '%生活習慣病%'
         OR `condition` LIKE '%循環%' 
         OR `condition` LIKE '%心不全%'
         OR `condition` LIKE '%がん%' 
+        OR `condition` LIKE '%癌%' 
         OR `condition` LIKE '%生活習慣病%' 
         OR narrative_objectives1 LIKE '%循環%'
         OR narrative_objectives1 LIKE '%心不全%'
         OR narrative_objectives1 LIKE '%がん%'
+        OR narrative_objectives1 LIKE '%癌%'
         OR narrative_objectives1 LIKE '%生活習慣病%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     ",
