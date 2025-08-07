@@ -3,12 +3,14 @@ import SearchForm from './components/SearchForm';
 import ResultsTable from './components/ResultsTable';
 import { searchTrials, exportTrials, exportAllTrials, updateDatabase } from './api';
 import Login from './components/Login';
-import { logout } from './api'; // ログアウトAPIをインポート
+import { logout } from './api';
+import './App.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(false); // ローディングステート追加
   const [searchParams, setSearchParams] = useState({
     keyword: '',
     startDate: '',
@@ -22,8 +24,8 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      await logout(); // APIでログアウト処理を呼び出す
-      setIsAuthenticated(false); // 認証状態をリセット
+      await logout();
+      setIsAuthenticated(false);
     } catch (error) {
       console.error('ログアウトエラー:', error);
     }
@@ -31,20 +33,24 @@ function App() {
 
   const handleSearch = async (params) => {
     try {
+      setLoading(true); // ローディング開始
       const data = await searchTrials(params);
       setResults(data);
       setSearchParams(params);
     } catch (error) {
       console.error('検索エラー:', error);
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
 
   const handleExport = async () => {
     try {
+      setLoading(true); // ローディング開始
       const params = {
         keyword: document.getElementById("keyword").value,
-        startDate: document.getElementById("startDate").value,  // startDateをDOMから直接取得
-        endDate: document.getElementById("endDate").value  // endDateをDOMから直接取得
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value
       };
       const blob = await exportTrials(params);
       const url = window.URL.createObjectURL(new Blob([blob]));
@@ -56,23 +62,16 @@ function App() {
       link.parentNode.removeChild(link);
     } catch (error) {
       console.error('エクスポートエラー:', error);
-    }
-  };
-
-  const handleUpdateDatabase = async () => {
-    try {
-      const response = await updateDatabase();
-      alert('データベースが更新されました！');
-    } catch (error) {
-      console.error('データベース更新エラー:', error);
-      alert('データベース更新に失敗しました。');
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
 
   const handleAllExport = async () => {
     try {
+      setLoading(true); // ローディング開始
       const params = {
-        startDate: document.getElementById("startDate").value,  // DOMから直接取得
+        startDate: document.getElementById("startDate").value,
         endDate: document.getElementById("endDate").value
       };
       const blob = await exportAllTrials(params);
@@ -85,6 +84,21 @@ function App() {
       link.parentNode.removeChild(link);
     } catch (error) {
       console.error('エクスポートエラー:', error);
+    } finally {
+      setLoading(false); // ローディング終了
+    }
+  };
+
+  const handleUpdateDatabase = async () => {
+    try {
+      setLoading(true); // ローディング開始
+      await updateDatabase();
+      alert('データベースが更新されました！');
+    } catch (error) {
+      console.error('データベース更新エラー:', error);
+      alert('データベース更新に失敗しました。');
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
 
@@ -94,13 +108,26 @@ function App() {
 
   return (
     <div className="App">
-      <h1>UMIN-CTR検索システム</h1>
-      <button onClick={handleLogout}>ログアウト</button> {/* ログアウトボタンを追加 */}
-      <SearchForm onSearch={handleSearch} />
-      <button onClick={handleExport}>Excelに保存</button>
-      <button onClick={handleAllExport}>All Export</button>
-      {isAdmin && <button onClick={handleUpdateDatabase}>データベースを更新</button>}
-      <ResultsTable results={results || []} />
+      <header>
+        <h1>UMIN-CTR検索システム</h1>
+        <button className="logout-button" onClick={handleLogout}>ログアウト</button>
+      </header>
+
+      <main>
+        {loading ? (
+          <div className="loading-animation">Now loading...</div> // ローディング中の表示
+        ) : (
+          <div className="search-section">
+            <SearchForm onSearch={handleSearch} />
+            <div className="button-group">
+              <button className="export-button" onClick={handleExport}>Excelに保存</button>
+              <button className="export-button" onClick={handleAllExport}>All Export</button>
+              {isAdmin === 1 && (<button className="update-button" onClick={handleUpdateDatabase}>データベースを更新</button>)}
+            </div>
+            <ResultsTable results={results || []} />
+          </div>
+        )}
+      </main>
     </div>
   );
 }

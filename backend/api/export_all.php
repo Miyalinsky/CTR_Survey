@@ -4,14 +4,14 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
 
-// エラーログ出力を有効にする
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+// // エラーログ出力を有効にする
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 
-// ログファイルにエラーを記録する
-ini_set('log_errors', 1);
-ini_set('error_log', '/Applications/XAMPP/xamppfiles/logs/php_error.log');
+// // ログファイルにエラーを記録する
+// ini_set('log_errors', 1);
+// ini_set('error_log', '/Applications/XAMPP/xamppfiles/logs/php_error.log');
 
 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 header('Content-Disposition: attachment; filename="all_trials.xlsx"');
@@ -28,42 +28,237 @@ $endDate = isset($_GET['endDate']) ? $_GET['endDate'] : date('Y-m-d');
 
 $spreadsheet = new Spreadsheet();
 
+// デフォルトの空のシートを削除
+$spreadsheet->removeSheetByIndex(0);
+
 // クエリリスト
 $queries = [
-    '認知症' => "
+    'その他疾患（AI、ML、アプリ等関連）' => "
     SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
     CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
     CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
     url_japanese
     FROM trials 
-    WHERE (scientific_title LIKE '%認知症%'
-        OR public_title LIKE '%認知症%'
-        OR `condition` LIKE '%認知症%' 
-        OR narrative_objectives1 LIKE '%認知症%')
+    WHERE (scientific_title LIKE BINARY '%AI%'
+        OR scientific_title LIKE '%機械学習%'
+        OR scientific_title LIKE '%深層学習%'
+        OR scientific_title LIKE '%ディープラーニング%'
+        OR scientific_title LIKE '%deep learning%'
+        OR scientific_title LIKE '%アプリ%'
+        OR scientific_title LIKE '%スマートフォン%'
+        OR scientific_title LIKE '%ウェアラブル%'
+        OR public_title LIKE BINARY '%AI%'
+        OR public_title LIKE '%機械学習%'
+        OR public_title LIKE '%深層学習%'
+        OR public_title LIKE '%ディープラーニング%'
+        OR public_title LIKE '%deep learning%'
+        OR public_title LIKE '%アプリ%'
+        OR public_title LIKE '%スマートフォン%'
+        OR public_title LIKE '%ウェアラブル%'
+        OR narrative_objectives1 LIKE BINARY '%AI%'
+        OR narrative_objectives1 LIKE '%機械学習%'
+        OR narrative_objectives1 LIKE '%深層学習%'
+        OR narrative_objectives1 LIKE '%ディープラーニング%'
+        OR narrative_objectives1 LIKE '%deep learning%'
+        OR narrative_objectives1 LIKE '%アプリ%'
+        OR narrative_objectives1 LIKE '%スマートフォン%'
+        OR narrative_objectives1 LIKE '%ウェアラブル%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     ",
-    '高血圧' => "
+    'フレイル・免疫・腸内フローラ' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%フレイル%'
+        OR scientific_title LIKE '%免疫%'
+        OR scientific_title LIKE '%腸内%'
+        OR public_title LIKE '%フレイル%'
+        OR public_title LIKE '%免疫%'
+        OR public_title LIKE '%腸内%'
+        OR `condition` LIKE '%フレイル%' 
+        OR `condition` LIKE '%免疫%' 
+        OR `condition` LIKE '%腸内%' 
+        OR narrative_objectives1 LIKE '%フレイル%'
+        OR narrative_objectives1 LIKE '%免疫%'
+        OR narrative_objectives1 LIKE '%腸内%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '高血圧・脂質異常症・メタボ・糖尿病' => "
     SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
     CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
     CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
     url_japanese
     FROM trials 
     WHERE (scientific_title LIKE '%高血圧%'
+        OR scientific_title LIKE '%脂質異常%'
+        OR scientific_title LIKE '%メタボ%'
+        OR scientific_title LIKE '%糖尿病%'
         OR public_title LIKE '%高血圧%'
+        OR public_title LIKE '%脂質異常%'
+        OR public_title LIKE '%メタボ%'
+        OR public_title LIKE '%糖尿病%'
         OR `condition` LIKE '%高血圧%' 
-        OR narrative_objectives1 LIKE '%高血圧%')
+        OR `condition` LIKE '%脂質異常%' 
+        OR `condition` LIKE '%メタボ%' 
+        OR `condition` LIKE '%糖尿病%' 
+        OR narrative_objectives1 LIKE '%高血圧%'
+        OR narrative_objectives1 LIKE '%脂質異常%'
+        OR narrative_objectives1 LIKE '%メタボ%'
+        OR narrative_objectives1 LIKE '%糖尿病%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     ",
-    'ストレス' => "
+    '循環器疾患・がん・生活習慣病' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%循環%'
+        OR scientific_title LIKE '%心不全%'
+        OR scientific_title LIKE '%がん%'
+        OR scientific_title LIKE '%生活習慣病%'
+        OR public_title LIKE '%循環%'
+        OR public_title LIKE '%心不全%'
+        OR public_title LIKE '%がん%'
+        OR public_title LIKE '%生活習慣病%'
+        OR `condition` LIKE '%循環%' 
+        OR `condition` LIKE '%心不全%'
+        OR `condition` LIKE '%がん%' 
+        OR `condition` LIKE '%生活習慣病%' 
+        OR narrative_objectives1 LIKE '%循環%'
+        OR narrative_objectives1 LIKE '%心不全%'
+        OR narrative_objectives1 LIKE '%がん%'
+        OR narrative_objectives1 LIKE '%生活習慣病%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '精神疾患（ストレス・幸福度含む）' => "
     SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
     CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
     CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
     url_japanese
     FROM trials 
     WHERE (scientific_title LIKE '%ストレス%'
+        OR scientific_title LIKE '%幸福度%'
+        OR scientific_title LIKE '%精神疾患%'
         OR public_title LIKE '%ストレス%'
+        OR public_title LIKE '%幸福度%'
+        OR public_title LIKE '%精神疾患%'
         OR `condition` LIKE '%ストレス%' 
-        OR narrative_objectives1 LIKE '%ストレス%')
+        OR `condition` LIKE '%幸福度%' 
+        OR `condition` LIKE '%精神疾患%' 
+        OR narrative_objectives1 LIKE '%ストレス%'
+        OR narrative_objectives1 LIKE '%幸福度%'
+        OR narrative_objectives1 LIKE '%精神疾患%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '婦人科疾患' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%妊娠%'
+        OR scientific_title LIKE '%子宮%'
+        OR scientific_title LIKE '%産後%'
+        OR scientific_title LIKE '%婦人%'
+        OR scientific_title LIKE '%卵巣%'
+        OR scientific_title LIKE '%月経%'
+        OR public_title LIKE '%妊娠%'
+        OR public_title LIKE '%子宮%'
+        OR public_title LIKE '%産後%'
+        OR public_title LIKE '%婦人%'
+        OR public_title LIKE '%卵巣%'
+        OR public_title LIKE '%月経%'
+        OR `condition` LIKE '%妊娠%' 
+        OR `condition` LIKE '%子宮%' 
+        OR `condition` LIKE '%産後%' 
+        OR `condition` LIKE '%婦人%' 
+        OR `condition` LIKE '%卵巣%' 
+        OR `condition` LIKE '%月経%' 
+        OR narrative_objectives1 LIKE '%妊娠%'
+        OR narrative_objectives1 LIKE '%子宮%'
+        OR narrative_objectives1 LIKE '%産後%'
+        OR narrative_objectives1 LIKE '%婦人%'
+        OR narrative_objectives1 LIKE '%卵巣%'
+        OR narrative_objectives1 LIKE '%月経%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '睡眠・プレゼンティーイズム' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%睡眠%'
+        OR scientific_title LIKE '%不眠%'
+        OR scientific_title LIKE '%プレゼンティーイズム%'
+        OR public_title LIKE '%睡眠%'
+        OR public_title LIKE '%不眠%'
+        OR public_title LIKE '%プレゼンティーイズム%'
+        OR `condition` LIKE '%睡眠%'
+        OR `condition` LIKE '%不眠%'
+        OR `condition` LIKE '%プレゼンティーイズム%'
+        OR narrative_objectives1 LIKE '%睡眠%'
+        OR narrative_objectives1 LIKE '%不眠%'
+        OR narrative_objectives1 LIKE '%プレゼンティーイズム%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '口腔機能' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%口腔%'
+        OR scientific_title LIKE '%歯周%'
+        OR scientific_title LIKE '%顎関節%'
+        OR public_title LIKE '%口腔%'
+        OR public_title LIKE '%歯周%'
+        OR public_title LIKE '%顎関節%'
+        OR `condition` LIKE '%口腔%' 
+        OR `condition` LIKE '%歯周%' 
+        OR `condition` LIKE '%顎関節%' 
+        OR narrative_objectives1 LIKE '%口腔%'
+        OR narrative_objectives1 LIKE '%歯周%'
+        OR narrative_objectives1 LIKE '%顎関節%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '認知機能' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%認知症%'
+        OR scientific_title LIKE '%認知機能%'
+        OR scientific_title LIKE '%MCI%'
+        OR scientific_title LIKE '%認知障害%'
+        OR public_title LIKE '%認知症%'
+        OR public_title LIKE '%認知機能%'
+        OR public_title LIKE '%MCI%'
+        OR public_title LIKE '%認知障害%'
+        OR `condition` LIKE '%認知症%' 
+        OR `condition` LIKE '%認知機能%' 
+        OR `condition` LIKE '%MCI%' 
+        OR `condition` LIKE '%認知障害%' 
+        OR narrative_objectives1 LIKE '%認知症%'
+        OR narrative_objectives1 LIKE '%認知機能%'
+        OR narrative_objectives1 LIKE '%MCI%'
+        OR narrative_objectives1 LIKE '%認知障害%')
+    AND date_of_disclosure BETWEEN :startDate AND :endDate
+    ",
+    '認知行動療法' => "
+    SELECT umin_id, CONCAT(umin_id, '\n', date_of_disclosure) AS umin_with_date, scientific_title, `condition`, narrative_objectives1, basic_objectives2, basic_objectives_others, developmental_phase, primary_outcomes, key_secondary_outcomes, study_type,
+    CONCAT(basic_design, '\n', randomization, '\n', randomization_unit, '\n', blinding, '\n', control) AS study_design, age_lower_limit, age_upper_limit, gender, key_inclusion_criteria, key_exclusion_criteria, target_sample_size,
+    CONCAT(institute, '\n', institute_org) AS institute, CONCAT(organization, '\n', organization_org) AS organization, irb_organization, institutions,
+    url_japanese
+    FROM trials 
+    WHERE (scientific_title LIKE '%認知行動%'
+        OR public_title LIKE '%認知行動%'
+        OR `condition` LIKE '%認知行動%' 
+        OR narrative_objectives1 LIKE '%認知行動%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     "
 ];

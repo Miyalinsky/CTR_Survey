@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './Login.css';
 
 function Login({ onLogin }) {
     const [username, setUsername] = useState('');
@@ -25,20 +26,20 @@ function Login({ onLogin }) {
     };
 
     return (
-        <div>
+        <div className="login-container">
             <h2>ログイン</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form onSubmit={handleSubmit} className="login-form">
+                <div className="form-group">
                     <label>ユーザー名:</label>
-                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                    <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required className="login-input" />
                 </div>
-                <div>
+                <div className="form-group">
                     <label>パスワード:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="login-input" />
                 </div>
-                <button type="submit">ログイン</button>
+                <button type="submit" className="login-button">ログイン</button>
             </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p className="error-message">{error}</p>}
         </div>
     );
 }
