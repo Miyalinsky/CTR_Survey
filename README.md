@@ -2,7 +2,7 @@
 
 ## 導入方法
 ### 1. XAMPPのインストール
-以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード
+以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://www.apachefriends.org/jp/index.html
 
 
