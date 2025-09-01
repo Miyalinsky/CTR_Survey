@@ -74,15 +74,19 @@ $queries = [
     WHERE (scientific_title LIKE '%フレイル%'
         OR scientific_title LIKE '%免疫%'
         OR scientific_title LIKE '%腸内%'
+        OR scientific_title LIKE '%腸活%'
         OR public_title LIKE '%フレイル%'
         OR public_title LIKE '%免疫%'
         OR public_title LIKE '%腸内%'
+        OR public_title LIKE '%腸活%'
         OR `condition` LIKE '%フレイル%' 
         OR `condition` LIKE '%免疫%' 
         OR `condition` LIKE '%腸内%' 
+        OR `condition` LIKE '%腸活%' 
         OR narrative_objectives1 LIKE '%フレイル%'
         OR narrative_objectives1 LIKE '%免疫%'
-        OR narrative_objectives1 LIKE '%腸内%')
+        OR narrative_objectives1 LIKE '%腸内%'
+        OR narrative_objectives1 LIKE '%腸活%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     ",
     '高血圧・脂質異常症・メタボ・糖尿病' => "
@@ -117,19 +121,27 @@ $queries = [
     FROM trials 
     WHERE (scientific_title LIKE '%循環%'
         OR scientific_title LIKE '%心不全%'
+        OR scientific_title LIKE '%心疾患%'
         OR scientific_title LIKE '%がん%'
+        OR scientific_title LIKE '%癌%'
         OR scientific_title LIKE '%生活習慣病%'
         OR public_title LIKE '%循環%'
         OR public_title LIKE '%心不全%'
+        OR public_title LIKE '%心疾患%'
         OR public_title LIKE '%がん%'
+        OR public_title LIKE '%癌%'
         OR public_title LIKE '%生活習慣病%'
         OR `condition` LIKE '%循環%' 
         OR `condition` LIKE '%心不全%'
+        OR `condition` LIKE '%心疾患%'
         OR `condition` LIKE '%がん%' 
+        OR `condition` LIKE '%癌%' 
         OR `condition` LIKE '%生活習慣病%' 
         OR narrative_objectives1 LIKE '%循環%'
         OR narrative_objectives1 LIKE '%心不全%'
+        OR narrative_objectives1 LIKE '%心疾患%'
         OR narrative_objectives1 LIKE '%がん%'
+        OR narrative_objectives1 LIKE '%癌%'
         OR narrative_objectives1 LIKE '%生活習慣病%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
     ",
@@ -140,15 +152,19 @@ $queries = [
     url_japanese
     FROM trials 
     WHERE (scientific_title LIKE '%ストレス%'
+        OR scientific_title LIKE '%メンタルヘルス%'
         OR scientific_title LIKE '%幸福度%'
         OR scientific_title LIKE '%精神疾患%'
         OR public_title LIKE '%ストレス%'
+        OR public_title LIKE '%メンタルヘルス%'
         OR public_title LIKE '%幸福度%'
         OR public_title LIKE '%精神疾患%'
         OR `condition` LIKE '%ストレス%' 
+        OR `condition` LIKE '%メンタルヘルス%' 
         OR `condition` LIKE '%幸福度%' 
         OR `condition` LIKE '%精神疾患%' 
         OR narrative_objectives1 LIKE '%ストレス%'
+        OR narrative_objectives1 LIKE '%メンタルヘルス%'
         OR narrative_objectives1 LIKE '%幸福度%'
         OR narrative_objectives1 LIKE '%精神疾患%')
     AND date_of_disclosure BETWEEN :startDate AND :endDate
