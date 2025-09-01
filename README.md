@@ -5,7 +5,7 @@
 以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://www.apachefriends.org/jp/index.html
 
-
+MySQL, PHP, phpMyAdminの3つにチェックが入っていればOK
 <img width="749" height="637" alt="スクリーンショット 2025-09-01 213826" src="https://github.com/user-attachments/assets/49c7519f-e3e9-4f8c-ae95-197650b7c064" />
 
 
