@@ -1,11 +1,19 @@
 # UMIN臨床試験情報検索支援ツール
 
 ## 導入方法
-### 1. （未インストールであれば）VScodeのインストール
+### 1. （未インストールであれば）VScodeインストール
 以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://code.visualstudio.com/download
 
-### 1. XAMPPのインストール
+インストーラーを開き、手順を進める
+
+### 2. （未インストールであれば）Gitインストール
+以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
+https://git-scm.com/downloads
+
+
+
+### 1. XAMPPインストール
 以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://www.apachefriends.org/jp/index.html
 
@@ -61,6 +69,10 @@ CREATE OR REPLACE TABLE trials(
     url_japanese varchar(255),
     PRIMARY KEY (id)
 );
+
+### 
+コマンドプロンプトを起動し、インストールしたXAMPP配下のhtdocsディレクトリに移動
+cd C:\xampp\htdocs
 
 - 臨床試験情報（UMIN-CTR）の情報収集を支援するシステム
 - UMINが公開するCTR情報を基に、独自のデータベースを構築
