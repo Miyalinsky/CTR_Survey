@@ -1,4 +1,6 @@
 <?php
+set_time_limit(0);
+
 // backend/scripts/fetch_csv.php
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
