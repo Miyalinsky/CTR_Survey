@@ -1,13 +1,66 @@
 # UMIN臨床試験情報検索支援ツール
 
 ## 導入方法
+### 1. （未インストールであれば）VScodeのインストール
+以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
+https://code.visualstudio.com/download
+
 ### 1. XAMPPのインストール
 以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://www.apachefriends.org/jp/index.html
 
-MySQL, PHP, phpMyAdminの3つにチェックが入っていればOK
+コンポーネントの選択画面では、MySQL, PHP, phpMyAdminの3つにチェックが入っていればOK
 <img width="749" height="637" alt="スクリーンショット 2025-09-01 213826" src="https://github.com/user-attachments/assets/49c7519f-e3e9-4f8c-ae95-197650b7c064" />
 
+
+
+### データベース作成
+CREATE OR REPLACE TABLE users (
+    id int(11) NOT NULL AUTO_INCREMENT,
+    username varchar(255) NOT NULL UNIQUE,
+    password varchar(255) NOT NULL,
+    is_admin tinyint(1) NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+);
+
+INSERT INTO users (username, password, is_admin)
+VALUES ('admin', '$2y$10$6k6tNGzdWMGWQfwsnE1ebesm883eSjGhGJy8jjwpkKzEMm5jF.9fS', 1);
+
+
+CREATE OR REPLACE TABLE trials(
+    id int(11) NOT NULL AUTO_INCREMENT,
+    umin_id varchar(1000) UNIQUE,
+    public_title text,
+    scientific_title text,
+    `condition` text,
+    narrative_objectives1 text,
+    basic_objectives2 text,
+    basic_objectives_others text,
+    developmental_phase text,
+    primary_outcomes text,
+    key_secondary_outcomes text,
+    study_type text,
+    basic_design text,
+    randomization text,
+    randomization_unit text,
+    blinding text,
+    control text,
+    age_lower_limit text,
+    age_upper_limit text,
+    gender text,
+    key_inclusion_criteria text,
+    key_exclusion_criteria text,
+    target_sample_size int(11),
+    institute text,
+    institute_org text,
+    organization text,
+    organization_org text,
+    irb_organization text,
+    institutions text,
+    date_of_disclosure date,
+    url_japanese varchar(255),
+    PRIMARY KEY (id)
+);
 
 - 臨床試験情報（UMIN-CTR）の情報収集を支援するシステム
 - UMINが公開するCTR情報を基に、独自のデータベースを構築
