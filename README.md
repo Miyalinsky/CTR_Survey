@@ -1,26 +1,29 @@
 # UMIN臨床試験情報検索支援ツール
 
 ## 導入方法
-### 1. （未インストールであれば）VScodeインストール
-以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
-https://code.visualstudio.com/download
+Windowsでの導入方法を記載しているが、他OSでも可
+いくつかインストールが必要なソフトがあるので、開発用PCでの実行を推奨
 
-インストーラーを開き、手順を進める
-
-### 2. （未インストールであれば）Gitインストール
-以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
-https://git-scm.com/downloads
+### 1. （未インストールであれば）Gitインストール
+以下の記事を参考にGitをインストールしておく
+https://qiita.com/takeru-hirai/items/4fbe6593d42f9a844b1c
 
 
-
-### 1. XAMPPインストール
+### 2. XAMPPインストール
 以下のURLにアクセスし、使用するOSに合わせてインストーラーをダウンロード  
 https://www.apachefriends.org/jp/index.html
 
 コンポーネントの選択画面では、MySQL, PHP, phpMyAdminの3つにチェックが入っていればOK
 <img width="749" height="637" alt="スクリーンショット 2025-09-01 213826" src="https://github.com/user-attachments/assets/49c7519f-e3e9-4f8c-ae95-197650b7c064" />
 
+その他はそのままNextを押していけばOK
 
+インストールが完了したら、以下のようなウィンドウが開く
+<img width="995" height="643" alt="スクリーンショット 2025-09-01 215430" src="https://github.com/user-attachments/assets/4a646898-9ee0-4f97-a988-35b8e523c4f5" />
+以降、XAMPPを起動する際は、保存先（デフォルト：C:\xampp）のxampp-control.exeを実行する
+
+
+<img width="994" height="646" alt="スクリーンショット 2025-09-03 113022" src="https://github.com/user-attachments/assets/64cd5f50-0ecb-4146-8ca6-ca2c6bc5faab" />
 
 ### データベース作成
 CREATE OR REPLACE TABLE users (
@@ -70,11 +73,13 @@ CREATE OR REPLACE TABLE trials(
     PRIMARY KEY (id)
 );
 
-### 
+### ソースコードをクローン
 コマンドプロンプトを起動し、インストールしたXAMPP配下のhtdocsディレクトリに移動
 cd C:\xampp\htdocs
 
 git clone https://github.com/Miyalinsky/CTR_Survey.git
+
+
 
 
 
