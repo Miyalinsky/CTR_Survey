@@ -110,8 +110,12 @@ npm -v
 それぞれのバージョンが表示されればOK
 <img width="915" height="417" alt="スクリーンショット 2025-09-03 153617" src="https://github.com/user-attachments/assets/a5d94e3f-fe8e-4ada-bd06-41d814172cd8" />
 
+「npm : このシステムではスクリプトの実行が無効になっているため、ファイル C:\Program Files\nodejs\npm.ps1 を読み込むことができません。」というエラーが出る場合は、Windows PowerShellを管理者として実行し、以下のコマンドを実行
+```
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
 
-### ソースコード準備
+### 5.ソースコード準備
 コマンドプロンプトを起動し、インストールしたXAMPP配下のhtdocsディレクトリに移動
 ```
 cd C:\xampp\htdocs
@@ -120,52 +124,49 @@ cd C:\xampp\htdocs
 ```
 git clone https://github.com/Miyalinsky/CTR_Survey.git
 ```
+<img width="1160" height="554" alt="スクリーンショット 2025-09-02 103315" src="https://github.com/user-attachments/assets/fdc9a1a3-2d0f-425c-bc0c-e4c97f13d680" />
 
+htdocsにCTR_surveyというフォルダが作成されるので、CTR_survey\frontendディレクトリに移動する
+```
+cd C:\xampp\htdocs\CTR_survey\frontend
+```
+以下のコマンドを実行する
+```
+npm install
+```
+<img width="855" height="328" alt="スクリーンショット 2025-09-03 155804" src="https://github.com/user-attachments/assets/29a0f9cc-eb01-4638-873d-260e7e25785e" />
 
+## 利用方法
+XAMPPを起動し、ApacheとMySQLをStartさせる
 
-「npm : このシステムではスクリプトの実行が無効になっているため、ファイル C:\Program Files\nodejs\npm.ps1 を読み込むことが できません。」というエラーが出る場合
-Windows PowerShellを管理者として実行し、以下のコマンドを実行
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+コマンドプロンプトを開き、CTR_survey\frontendディレクトリに移動する
+```
+cd C:\xampp\htdocs\CTR_survey\frontend
+```
+以下のコマンドを実行する
+```
+npm start
+```
 
+ブラウザが起動し、以下の画面が開く
+<img width="862" height="657" alt="スクリーンショット 2025-09-03 105619" src="https://github.com/user-attachments/assets/9a08351f-60cc-4f9a-926d-1776535b1102" />
 
+ユーザー名「admin」、パスワード「password」を入力し、ログインすると以下のような画面になる
+<img width="1548" height="509" alt="スクリーンショット 2025-09-03 110729" src="https://github.com/user-attachments/assets/648108a3-039f-446d-b044-852cda92870e" />
 
-- 臨床試験情報（UMIN-CTR）の情報収集を支援するシステム
-- UMINが公開するCTR情報を基に、独自のデータベースを構築
-- キーワードと期間を指定して検索すると条件に該当するレコードの一部を表示する
-- 検索結果をxlsx形式で保存可能
-- 検索期間を入力して[All Export]を押すと必要な情報が全て一括でダウンロード可能
-- AM3:00にデータベースが最新情報に自動更新される
+[データベースを更新]を押し、臨床試験情報のデータベースが最新の状態に更新する
+※環境によって時間がかかる可能性あり
 
-## ③DEMO
+更新が完了すると以下の表示が出る
+<img width="666" height="219" alt="スクリーンショット 2025-09-03 110417" src="https://github.com/user-attachments/assets/632749aa-2035-4def-aecb-0f05bd417201" />
 
-https://ochiponchi.sakura.ne.jp/CTR_Survey/frontend/
+日付を入力して検索期間を指定し、[All Export]を押す
+<img width="1240" height="556" alt="スクリーンショット 2025-09-03 110451" src="https://github.com/user-attachments/assets/d1a4ee42-22e1-4ebe-bf46-5ceeaf32d329" />
 
-## ④作ったアプリケーション用のIDまたはPasswordがある場合
+しばらく待つと、Excelファイルが出力される
+※検索期間が長い場合、破損したファイルが出力される可能性があるため、その場合は期間を短くして試す
+<img width="2255" height="1427" alt="スクリーンショット 2025-09-03 164131" src="https://github.com/user-attachments/assets/177fd326-f950-4de3-b523-edc1eeea2492" />
 
-管理者（データベースの手動更新権限あり）
-- ID: admin
-- PW: password
+利用後はコマンドプロンプトで「Ctrl+C」を押し、プログラムを停止する  
+その後、XAMPPでApacheとMySQLをStopする
 
-一般ユーザー
-- ID: user
-- PW: password
-
-## ⑤工夫した点・こだわった点
-
-- 臨床試験情報の収集業務を現状手動で行なっているため、自動化したいと思い作成した
-- 公開されているCTRのスナップショットCSVはサイズが大きく、検索にも難があるためデータベースやSQLを活用してサーバー再度で保持することで情報へのアクセス性を高めた
-- cronを設定し、日次でデータベースを自動更新するようにした
-- 管理者権限で手動でもデータベースを更新可能
-- All Export機能により、必要な全ての情報を一括でExcelにエクスポートし、業務稼働削減を実現
-
-## ⑥難しかった点・次回トライしたいこと(又は機能)
-
-- 見た目の部分を綺麗に整えていないので、CSSをしっかり作りたい
-
-## ⑦質問・疑問・感想、シェアしたいこと等なんでも
-
-- [質問]
-- [感想]
-- [参考記事]
-  - 1. [URLをここに記入]
-  - 2. [URLをここに記入]
