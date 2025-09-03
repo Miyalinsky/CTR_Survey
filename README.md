@@ -74,6 +74,17 @@ CREATE OR REPLACE TABLE trials(
 コマンドプロンプトを起動し、インストールしたXAMPP配下のhtdocsディレクトリに移動
 cd C:\xampp\htdocs
 
+git clone https://github.com/Miyalinsky/CTR_Survey.git
+
+
+
+
+「npm : このシステムではスクリプトの実行が無効になっているため、ファイル C:\Program Files\nodejs\npm.ps1 を読み込むことが できません。」というエラーが出る場合
+Windows PowerShellを管理者として実行し、以下のコマンドを実行
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+
+
 - 臨床試験情報（UMIN-CTR）の情報収集を支援するシステム
 - UMINが公開するCTR情報を基に、独自のデータベースを構築
 - キーワードと期間を指定して検索すると条件に該当するレコードの一部を表示する
