@@ -1,11 +1,11 @@
 # UMIN臨床試験情報検索支援ツール
 
 ## 導入方法
-Windowsでの導入方法を記載しているが、他OSでも可
+Windowsでの導入方法を記載しているが、他OSでも可  
 いくつかインストールが必要なソフトがあるので、開発用PCでの実行を推奨
 
 ### 1. （未インストールであれば）Gitインストール
-以下の記事を参考にGitをインストールしておく
+以下の記事を参考にGitをインストールしておく  
 https://qiita.com/takeru-hirai/items/4fbe6593d42f9a844b1c
 
 
@@ -23,9 +23,21 @@ https://www.apachefriends.org/jp/index.html
 以降、XAMPPを起動する際は、保存先（デフォルト：C:\xampp）のxampp-control.exeを実行する
 
 
-<img width="994" height="646" alt="スクリーンショット 2025-09-03 113022" src="https://github.com/user-attachments/assets/64cd5f50-0ecb-4146-8ca6-ca2c6bc5faab" />
+### 3.データベース作成
+[start]をクリックしてApacheとMySQLを立ち上げておく
+<img width="994" height="646" alt="スクリーンショット 2025-09-03 113022" src="https://github.com/user-attachments/assets/630c99c2-edeb-4e38-bb37-8ab4643b0764" />
 
-### データベース作成
+ブラウザを開き、URLに「localhost」を入力すると以下の画面になる
+<img width="2244" height="1427" alt="スクリーンショット 2025-09-01 220025" src="https://github.com/user-attachments/assets/4d6a593e-1780-413f-ab81-b1514eecc480" />
+
+上部の[phpMyAdmin]をクリックすると以下の画面になる
+<img width="2252" height="1427" alt="スクリーンショット 2025-09-01 220526" src="https://github.com/user-attachments/assets/0fca7f61-3043-4935-b897-7ad4137ffb9d" />
+
+左側一覧の[新規作成]をクリックし、データベース名「ctr_survey」、照合順序「utf8mb4_general_ci」で作成を押す
+<img width="2252" height="1427" alt="スクリーンショット 2025-09-01 220928" src="https://github.com/user-attachments/assets/e085bd80-f3b7-45a0-855a-0c4f15eef618" />
+
+一覧に新規作成された[ctr_survey]をクリックし、上側の[SQL]を押すと、SQLクエリの入力欄が開くので、以下のクエリを実行する
+```
 CREATE OR REPLACE TABLE users (
     id int(11) NOT NULL AUTO_INCREMENT,
     username varchar(255) NOT NULL UNIQUE,
@@ -33,11 +45,16 @@ CREATE OR REPLACE TABLE users (
     is_admin tinyint(1) NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
+```
+<img width="2254" height="1428" alt="スクリーンショット 2025-09-03 115952" src="https://github.com/user-attachments/assets/39499870-653f-41d7-aee3-003dfa85a131" />
 
+再度、[ctr_survey]→[SQL]を押し、以下のクエリを実行する
+```
 INSERT INTO users (username, password, is_admin)
 VALUES ('admin', '$2y$10$6k6tNGzdWMGWQfwsnE1ebesm883eSjGhGJy8jjwpkKzEMm5jF.9fS', 1);
-
-
+```
+再度、[ctr_survey]→[SQL]を押し、以下のクエリを実行する
+```
 CREATE OR REPLACE TABLE trials(
     id int(11) NOT NULL AUTO_INCREMENT,
     umin_id varchar(1000) UNIQUE,
@@ -72,15 +89,37 @@ CREATE OR REPLACE TABLE trials(
     url_japanese varchar(255),
     PRIMARY KEY (id)
 );
+```
 
-### ソースコードをクローン
+### 4. Node.jsインストール
+以下のURLからインストーラーをダウンロード  
+https://nodejs.org/ja/download
+
+以下のインストーラーをダウンロードするとよい
+<img width="877" height="222" alt="スクリーンショット 2025-09-03 123205" src="https://github.com/user-attachments/assets/5d80ca21-6508-4064-90a9-f3cdb7055f64" />
+
+インストーラーを実行、基本的にそのまま[Next]を押して進めればよい
+
+コマンドプロンプトを開き以下2つのコマンドを実行する
+```
+node -v
+```
+```
+npm -v
+```
+それぞれのバージョンが表示されればOK
+<img width="915" height="417" alt="スクリーンショット 2025-09-03 153617" src="https://github.com/user-attachments/assets/a5d94e3f-fe8e-4ada-bd06-41d814172cd8" />
+
+
+### ソースコード準備
 コマンドプロンプトを起動し、インストールしたXAMPP配下のhtdocsディレクトリに移動
+```
 cd C:\xampp\htdocs
-
+```
+以下のコマンドを実行
+```
 git clone https://github.com/Miyalinsky/CTR_Survey.git
-
-
-
+```
 
 
 
