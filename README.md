@@ -154,7 +154,7 @@ npm start
 ユーザー名「admin」、パスワード「password」を入力し、ログインすると以下のような画面になる
 <img width="1548" height="509" alt="スクリーンショット 2025-09-03 110729" src="https://github.com/user-attachments/assets/648108a3-039f-446d-b044-852cda92870e" />
 
-[データベースを更新]を押し、臨床試験情報のデータベースが最新の状態に更新する
+[データベースを更新]を押し、臨床試験情報のデータベースが最新の状態に更新する  
 ※環境によって時間がかかる可能性あり
 
 更新が完了すると以下の表示が出る
@@ -163,7 +163,7 @@ npm start
 日付を入力して検索期間を指定し、[All Export]を押す
 <img width="1240" height="556" alt="スクリーンショット 2025-09-03 110451" src="https://github.com/user-attachments/assets/d1a4ee42-22e1-4ebe-bf46-5ceeaf32d329" />
 
-しばらく待つと、Excelファイルが出力される
+しばらく待つと、Excelファイルが出力される  
 ※検索期間が長い場合、破損したファイルが出力される可能性があるため、その場合は期間を短くして試す
 <img width="2255" height="1427" alt="スクリーンショット 2025-09-03 164131" src="https://github.com/user-attachments/assets/177fd326-f950-4de3-b523-edc1eeea2492" />
 
